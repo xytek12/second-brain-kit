@@ -1,0 +1,27 @@
+# --- Secrets — never commit ---
+.env
+.env.*
+secrets/
+*.key
+*.pem
+*.pfx
+*.p12
+*_secret*
+*credentials*
+
+# --- OS / editor noise ---
+.DS_Store
+Thumbs.db
+*.swp
+.obsidian/workspace*
+.obsidian/cache
+
+# --- Heavy binaries — keep out of git (sync separately if needed) ---
+# Uncomment / extend if the size-gate module is not installed.
+*.zip
+*.psd
+*.mp4
+*.mov
+*.NEF
+*.CR2
+*.ARW

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# size-gate: block any staged file larger than LIMIT from entering git history.
+# Keeps the vault lean (heavy binaries belong outside git). Override for one commit with:
+#   SECONDBRAIN_ALLOW_BIG=1 git commit ...
+# Activated by scripts/install-hooks.sh (part of the optional size-gate module).
+set -u
+LIMIT=${SECONDBRAIN_SIZE_LIMIT:-1048576}   # 1 MB default
+[ "${SECONDBRAIN_ALLOW_BIG:-0}" = "1" ] && exit 0
+
+offenders=()
+while IFS= read -r -d '' path; do
+  size=$(git cat-file -s ":$path" 2>/dev/null) || continue
+  [ -n "$size" ] || continue
+  if [ "$size" -gt "$LIMIT" ]; then
+    mb=$(awk "BEGIN{printf \"%.1f\", $size/1048576}")
+    offenders+=("$mb MB	$path")
+  fi
+done < <(git diff --cached --name-only --diff-filter=ACM -z)
+
+if [ "${#offenders[@]}" -gt 0 ]; then
+  {
+    echo "⛔ size-gate: blocked ${#offenders[@]} file(s) over $(awk "BEGIN{printf \"%.1f\", $LIMIT/1048576}") MB:"
+    printf '   %s\n' "${offenders[@]}"
+    echo "   Keep heavy binaries out of git. To override once:  SECONDBRAIN_ALLOW_BIG=1 git commit ..."
+  } >&2
+  exit 1
+fi
+exit 0

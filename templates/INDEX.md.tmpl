@@ -1,0 +1,37 @@
+# {{USER_NAME}} — Second Brain Index
+
+> Routing map only. Grep `MAP.md` first to find the right note, then open the linked note.
+> Deep detail lives in `wiki/`, project snapshots in `projects/`, raw imports in `raw/`.
+
+## Who
+{{USER_ONE_LINER}} — {{LOCATION_OR_CONTEXT}}. Language rule: {{LANGUAGE_RULE}}.
+Main areas: {{AREAS_LIST}}.
+
+## Hard Rules
+- Privacy: never print or expose `.env`, `.env.*`, API keys, passwords, tokens, or any
+  secret file. Secret *names/paths* only when needed.
+- Navigation: grep `MAP.md` first, then open the specific linked note. Do not bulk-load
+  `raw/` unless the user asks for a digest.
+- Sync: run `sync vault` to commit + pull/push. Never commit secrets.
+
+{{TRUST_BOUNDARY_BLOCK}}
+
+## Router
+| Need | Open |
+|---|---|
+| Find any note cheaply | `MAP.md` |
+| How the vault works | `wiki/how-this-works` |
+{{EXTRA_ROUTER_ROWS}}
+
+## Project Router
+| Project | Status | Note | Location |
+|---|---|---|---|
+{{PROJECT_ROWS}}
+
+## Commands
+- `sync vault` — run `scripts/sync-vault.sh`: rebuild `MAP.md`, check for secrets, commit,
+  pull --rebase, push.
+{{OPTIONAL_COMMANDS}}
+
+---
+Created {{DATE}} with second-brain-kit.
