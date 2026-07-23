@@ -1,0 +1,5 @@
+# Keep LF in the repo for all text, so the shell scripts run on macOS/Linux
+# even when committed from Windows.
+* text=auto eol=lf
+*.pdf binary
+*.png binary
